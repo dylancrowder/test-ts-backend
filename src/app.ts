@@ -32,7 +32,7 @@ app.use((req: any, res: any, next: any) => {
       httpOnly: true,
       secure: true, // Asegúrate de estar usando HTTPS
       maxAge: 30 * 24 * 60 * 60 * 1000,
-      sameSite: "Lax", // Considera cambiar a 'Strict' o 'None' según tus necesidades
+      sameSite: "None",
     });
 
     // Continúa con el siguiente middleware después de setear la cookie
