@@ -49,7 +49,7 @@ app.use((req: any, res, next) => {
 });
 
 app.get("/token", (req: any, res) => {
-  res.json({ message: "This is a protected route", device: req.device });
+  res.json({ message: "This is sa protected route!!", device: req.device });
 });
 
 const PORT = 8080;
