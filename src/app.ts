@@ -37,7 +37,8 @@ app.use((req: any, res, next) => {
       sameSite: "none",
     });
 
-    return res.json({ message: token });
+    req.device = uuid;
+    return next();
   }
   jwt.verify(token, SECRET_KEY, (err: any, decoded: any) => {
     if (err) {
@@ -49,7 +50,10 @@ app.use((req: any, res, next) => {
 });
 
 app.get("/token", (req: any, res) => {
-  res.json({ message: "This is sa protected route!! callate ", device: req.device });
+  res.json({
+    message: "This is sa protected route!! callate ",
+    device: req.device,
+  });
 });
 
 const PORT = 8080;
