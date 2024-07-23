@@ -11,7 +11,7 @@ app.use(cookieParser()); // Añadir middleware para manejar cookies
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://frontend-test-nine-xi.vercel.app",
     methods: "GET,POST",
     allowedHeaders: "Content-Type,Authorization",
     credentials: true,
