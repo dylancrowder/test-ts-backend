@@ -1,43 +1,29 @@
 import express from "express";
-import cookieParser from "cookie-parser";
-import cors from "cors";
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 
 const app = express();
 const SECRET_KEY = "your_secret_key";
 
-// Configurar CORS para permitir credenciales (cookies)
-app.use(
-  cors({
-    origin: "https://frontend-test-nine-xi.vercel.app",
-    credentials: true,
-  })
-);
+app.use(express.json());
 
-app.use(cookieParser());
+app.get("/", (req, res) => {
+  // Genera un nuevo token y envíalo en la respuesta
+  const uuid = uuidv4();
+  const newToken = jwt.sign({ device: uuid }, SECRET_KEY, {
+    algorithm: "HS256",
+    expiresIn: "30d",
+  });
 
-app.use((req: any, res: any, next: any) => {
-  const token = req.cookies.token;
+  res.json({ token: newToken });
+});
+
+app.use((req: any, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
   console.log("este es el token", token);
 
   if (!token) {
-    const uuid = uuidv4();
-    const newToken = jwt.sign({ device: uuid }, SECRET_KEY, {
-      algorithm: "HS256",
-      expiresIn: "30d",
-    });
-
-    res.cookie("token", newToken, {
-      httpOnly: true,
-      secure: true, // Asegúrate de estar usando HTTPS
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-      sameSite: "None",
-    });
-
-    // Continúa con el siguiente middleware después de setear la cookie
-    req.device = uuid;
-    return next();
+    return res.status(403).send("No token provided");
   }
 
   jwt.verify(token, SECRET_KEY, (err: any, decoded: any) => {
@@ -49,9 +35,7 @@ app.use((req: any, res: any, next: any) => {
   });
 });
 
-// Rutas y lógica adicional
-app.get("/protected-route", (req: any, res: any) => {
-  // Ejemplo de ruta protegida
+app.get("/protected-route", (req, res) => {
   res.send("Acceso concedido");
 });
 
