@@ -8,7 +8,7 @@ const SECRET_KEY = "your_secret_key";
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://frontend-test-nine-xi.vercel.app/", // Permitir solo solicitudes desde este dominio
+    origin: "https://frontend-test-nine-xi.vercel.app", // Permitir solo solicitudes desde este dominio
     //   methods: ['GET', 'POST'], // Métodos HTTP permitidos
     //   allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
     //   exposedHeaders: ['Content-Length', 'X-Foo'], // Encabezados adicionales a exponer
